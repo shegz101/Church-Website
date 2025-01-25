@@ -1,11 +1,12 @@
-import './App.css'
+import "./App.css";
+import { Nav } from "./components/header/Nav";
 
 function App() {
   return (
     <div>
-      <h1>Church Website</h1>
+      <Nav />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
