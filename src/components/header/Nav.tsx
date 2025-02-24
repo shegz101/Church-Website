@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
-import Logo from "../../assets/logo.jpeg";
+import Logo from "../../assets/logo.png";
 
 export function Nav() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -19,7 +19,7 @@ export function Nav() {
   };
 
   return (
-    <div className="w-full h-[80px] z-50 fixed text-center bg-[#FFFFFF] px-[12px] md:px-[60px] shadow-md md:border-b-2 border-blue-100">
+    <div className="w-full h-[80px] text-center bg-[#FFFFFF] px-[12px] md:px-[60px] shadow-md md:border-b-2 border-blue-100">
       <div className="flex justify-between items-center h-full">
         <div className="flex gap-1">
           {/* Church Logo */}
@@ -98,7 +98,7 @@ export function Nav() {
 
       {/* Mobile Navigation Drawer */}
       <div
-        className={`fixed top-0 right-0 h-screen w-[85%] bg-[#FFFFFF] text-[#000000] shadow-lg transform transition-transform duration-300 ${
+        className={`fixed z-30 top-0 right-0 h-screen w-[85%] bg-[#FFFFFF] text-[#000000] shadow-lg transform transition-transform duration-300 ${
           isNavOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
