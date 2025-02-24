@@ -1,46 +1,50 @@
 import React, { useState, useEffect } from "react";
 
-function TypeWriter({
+interface TypeWriterProps {
+  texts: string[];
+  styling?: string;
+  typingSpeed?: number;
+  pauseDuration?: number;
+}
+
+const TypeWriter: React.FC<TypeWriterProps> = ({
   texts,
-  styling,
+  styling = "",
   typingSpeed = 100,
   pauseDuration = 1000,
-}) {
-  const [displayedText, setDisplayedText] = useState("");
-  const [textIndex, setTextIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false); // Whether it's deleting text
-  const [showCursor, setShowCursor] = useState(true); // Cursor visibility
+}) => {
+  const [displayedText, setDisplayedText] = useState<string>("");
+  const [textIndex, setTextIndex] = useState<number>(0);
+  const [charIndex, setCharIndex] = useState<number>(0);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [showCursor, setShowCursor] = useState<boolean>(true);
 
   useEffect(() => {
     const currentText = texts[textIndex];
-    let timeout;
+    let timeout: any | null = null; // Explicitly type timeout
 
     if (!isDeleting && charIndex < currentText.length) {
-      // Typing forward
       timeout = setTimeout(() => {
         setDisplayedText((prev) => prev + currentText[charIndex]);
         setCharIndex((prev) => prev + 1);
       }, typingSpeed);
     } else if (isDeleting && charIndex > 0) {
-      // Deleting backward
       timeout = setTimeout(() => {
         setDisplayedText((prev) => prev.slice(0, -1));
         setCharIndex((prev) => prev - 1);
-      }, typingSpeed / 2); // Faster deletion
+      }, typingSpeed / 2);
     } else if (!isDeleting && charIndex === currentText.length) {
-      // Pause before deleting
       timeout = setTimeout(() => setIsDeleting(true), pauseDuration);
     } else if (isDeleting && charIndex === 0) {
-      // Move to the next text
       setIsDeleting(false);
-      setTextIndex((prev) => (prev + 1) % texts.length); // Loop back to the start
+      setTextIndex((prev) => (prev + 1) % texts.length);
     }
 
-    return () => clearTimeout(timeout);
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
   }, [charIndex, isDeleting, textIndex, texts, typingSpeed, pauseDuration]);
 
-  // Blinking cursor
   useEffect(() => {
     const cursorInterval = setInterval(() => {
       setShowCursor((prev) => !prev);
@@ -52,18 +56,14 @@ function TypeWriter({
   return (
     <p className={`${styling} flex items-center`}>
       {displayedText}
-      {/* Blinking Cursor */}
-      {/* <span
-        style={{
-          color: cursorColor,
-          marginLeft: "2px",
-          visibility: showCursor ? "visible" : "hidden",
-        }}
+      <span
+        className="ml-1"
+        style={{ visibility: showCursor ? "visible" : "hidden" }}
       >
         |
-      </span> */}
+      </span>
     </p>
   );
-}
+};
 
 export default TypeWriter;

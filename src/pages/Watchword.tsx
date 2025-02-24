@@ -1,11 +1,5 @@
-
-
 const Watchword = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default Watchword
+export default Watchword;
